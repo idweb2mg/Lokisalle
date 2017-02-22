@@ -43,7 +43,7 @@ if($_POST){
 		}
 		else{ // Tout est OK le pseudo est disponible on peut enregistrer le membre. Notons que nous aurions du vérifer la disponibilité de l'adresse email. En sachant que ce serait certainement une perte de MDP. 
 		
-		$resultat = $pdo -> prepare("INSERT INTO membre (pseudo, mdp, nom, prenom, email, civilite, ville, code_postal, adresse, statut) VALUES (:pseudo, :mdp, :nom, :prenom, :email, :civilite, :ville, :code_postal, :adresse, 0)");
+		$resultat = $pdo -> prepare("INSERT INTO membre (pseudo, mdp, nom, prenom, email, civilite, statut, date_enregistrement) VALUES (:pseudo, :mdp, :nom, :prenom, :email, :civilite, 0, :date_enregistrement)");
 			
 		//STR
 		$resultat -> bindParam(':pseudo', $_POST['pseudo'], PDO::PARAM_STR);
@@ -54,11 +54,11 @@ if($_POST){
 		$resultat -> bindParam(':prenom', $_POST['prenom'], PDO::PARAM_STR);
 		$resultat -> bindParam(':email', $_POST['email'], PDO::PARAM_STR);
 		$resultat -> bindParam(':civilite', $_POST['civilite'], PDO::PARAM_STR);
-		$resultat -> bindParam(':ville', $_POST['ville'], PDO::PARAM_STR);
-		$resultat -> bindParam(':adresse', $_POST['adresse'], PDO::PARAM_STR);
+		$resultat -> bindParam(':date_enregistrement', $_POST['date_enregistrement'], PDO::PARAM_STR);
+		
 
 		//INT
-		$resultat -> bindParam(':code_postal', $_POST['code_postal'], PDO::PARAM_INT);	
+		//$resultat -> bindParam(':code_postal', $_POST['code_postal'], PDO::PARAM_INT);	
 			
 		//$resultat -> execute();	
 			

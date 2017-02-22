@@ -1,7 +1,7 @@
 <?php
 
 // CONNEXION BDD
-$pdo = new PDO('mysql:host=localhost;dbname=site', 'root', '', array(
+$pdo = new PDO('mysql:host=localhost;dbname=lokisalle', 'root', '', array(
 	PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING,
 	PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'
 ));
@@ -10,7 +10,7 @@ $pdo = new PDO('mysql:host=localhost;dbname=site', 'root', '', array(
 session_start();
 
 // CHEMIN
-define('RACINE_SITE', '/php/site/');
+define('RACINE_SITE', '/lokisalle/lokisalle/');
 
 // VARIABLES
 $msg = ''; 
