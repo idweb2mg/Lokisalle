@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Mer 22 Février 2017 à 12:18
+-- Généré le :  Mer 22 Février 2017 à 13:17
 -- Version du serveur :  10.1.19-MariaDB
 -- Version de PHP :  5.5.38
 
@@ -27,9 +27,9 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `avis` (
-  `id_avis` tinyint(3) NOT NULL,
-  `id_membre` tinyint(3) NOT NULL,
-  `id_salle` tinyint(3) NOT NULL,
+  `id_avis` int(3) NOT NULL,
+  `id_membre` int(3) NOT NULL,
+  `id_salle` int(3) NOT NULL,
   `commentaire` text NOT NULL,
   `note` int(2) NOT NULL,
   `date_enregistrement` datetime NOT NULL
@@ -42,9 +42,9 @@ CREATE TABLE `avis` (
 --
 
 CREATE TABLE `commande` (
-  `id_commande` tinyint(3) NOT NULL,
-  `id_membre` tinyint(3) NOT NULL,
-  `id_produit` tinyint(3) NOT NULL,
+  `id_commande` int(3) NOT NULL,
+  `id_membre` int(3) NOT NULL,
+  `id_produit` int(3) NOT NULL,
   `date_enregistrement` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -55,7 +55,7 @@ CREATE TABLE `commande` (
 --
 
 CREATE TABLE `membre` (
-  `id_membre` tinyint(3) NOT NULL,
+  `id_membre` int(3) NOT NULL,
   `pseudo` varchar(20) NOT NULL,
   `mdp` varchar(128) NOT NULL,
   `nom` varchar(20) NOT NULL,
@@ -63,7 +63,7 @@ CREATE TABLE `membre` (
   `email` varchar(50) NOT NULL,
   `civilite` enum('m','f') NOT NULL,
   `statut` int(1) NOT NULL,
-  `date_enreg` datetime NOT NULL
+  `date_enregistrement` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -73,10 +73,10 @@ CREATE TABLE `membre` (
 --
 
 CREATE TABLE `produit` (
-  `id_produit` tinyint(3) NOT NULL,
-  `id_salle` tinyint(3) NOT NULL,
-  `date_arrivee` datetime DEFAULT NULL,
-  `date_depart` datetime DEFAULT NULL,
+  `id_produit` int(3) NOT NULL,
+  `id_salle` int(3) NOT NULL,
+  `date_arrivee` datetime NOT NULL,
+  `date_depart` datetime NOT NULL,
   `prix` int(3) NOT NULL,
   `etat` enum('l','r') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -88,7 +88,7 @@ CREATE TABLE `produit` (
 --
 
 CREATE TABLE `salle` (
-  `id_salle` tinyint(3) NOT NULL,
+  `id_salle` int(3) NOT NULL,
   `titre` varchar(200) NOT NULL,
   `description` text NOT NULL,
   `photo` varchar(200) NOT NULL,
@@ -142,27 +142,27 @@ ALTER TABLE `salle`
 -- AUTO_INCREMENT pour la table `avis`
 --
 ALTER TABLE `avis`
-  MODIFY `id_avis` tinyint(3) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_avis` int(3) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT pour la table `commande`
 --
 ALTER TABLE `commande`
-  MODIFY `id_commande` tinyint(3) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_commande` int(3) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT pour la table `membre`
 --
 ALTER TABLE `membre`
-  MODIFY `id_membre` tinyint(3) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_membre` int(3) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT pour la table `produit`
 --
 ALTER TABLE `produit`
-  MODIFY `id_produit` tinyint(3) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_produit` int(3) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT pour la table `salle`
 --
 ALTER TABLE `salle`
-  MODIFY `id_salle` tinyint(3) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_salle` int(3) NOT NULL AUTO_INCREMENT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
