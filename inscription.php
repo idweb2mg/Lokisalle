@@ -28,7 +28,43 @@ if($_POST){
 		$msg .= '<div class="erreur">Veuillez renseigner un pseudo !</div>';
 	}
 	
-	
+	if(!empty($_POST['mdp']) ){
+		 if(strlen($_POST['mdp']) < 6){
+		 	$msg .= '<div class="erreur">Le mot de passe doit comporter au minimun 6 caractères </div>';
+		 }	 
+	}
+	else{
+		$msg .= '<div class="erreur">Veuillez renseigner un mot de passe !</div>';
+	}
+
+	if(!empty($_POST['nom']) ){
+		 if(strlen($_POST['nom']) < 3){
+		 	$msg .= '<div class="erreur">Le nom doit comporter au minimun 3 caractères </div>';
+		 }	 
+	}
+	else{
+		$msg .= '<div class="erreur">Veuillez renseigner votre nom !</div>';
+	}
+
+	if(!empty($_POST['prenom']) ){
+		 if(strlen($_POST['prenom']) < 3){
+		 	$msg .= '<div class="erreur">Le prénom doit comporter au minimun 3 caractères </div>';
+		 }	 
+	}
+	else{
+		$msg .= '<div class="erreur">Veuillez renseigner votre prénom !</div>';
+	}
+
+	 if(!empty($_POST['email']) ){
+		 if(!strpos($_POST['email'], '@')){
+		 
+		 	$msg .= '<div class="erreur"> L\'adresse email doit comporter le caractères "@"</div>';
+		 }	 
+	}
+	else{
+		$msg .= '<div class="erreur">Veuillez renseigner votre adresse Email !</div>';
+	}
+
 	// Insertion du nouveau membre dans la BDD
 	if(empty($msg)){ // Tout est OK, aucune erreur dans le formulaire si $msg est vide. 
 		// Avant d'insérer le nx membre on doit vérifier si le pseudo est disponible. 
@@ -93,28 +129,28 @@ require_once('inc/header.inc.php');
 <form method="post" action="">
 	<?= $msg ?>	
 	<label>Pseudo :</label>
-	<input type="text" name="pseudo" value="<?= $pseudo ?>"/><br/>
+	<input type="text" name="pseudo" value="<?= $pseudo ?>"  required /><br/>
 	
 	<label>Mot de passe :</label>
-	<input type="password" name="mdp"/><br/>
+	<input type="password" name="mdp" required /><br/>
 	
 	<label>Nom :</label>
-	<input type="text" name="nom" value="<?= $nom ?>"/><br/>
+	<input type="text" name="nom" value="<?= $nom ?>" required /><br/>
 	
 	<label>Prénom :</label>
-	<input type="text" name="prenom" value="<?= $prenom ?>"/><br/>
+	<input type="text" name="prenom" value="<?= $prenom ?>" required /><br/>
 	
 	<label>Email :</label>
-	<input type="text" name="email" value="<?= $email ?>"/><br/>
+	<input type="text" name="email" value="<?= $email ?>" required /><br/>
 	
 	<label>Civilité :</label>
-	<select name="civilite">
-		<option>-- Selectionnez -- </option>
+	<select name="civilite" required >
+		<option value="">-- Selectionnez -- </option>
 		<option value="m" <?= ($civilite == 'm') ? 'selected' : '' ?>>Homme</option>
 		<option value="f" <?= ($civilite == 'f') ? 'selected' : '' ?>>Femme</option>
 	</select><br/>
 	
-	<input type="submit" value="Inscription" />
+	<input id="bouton" type="submit" value="Inscription" />
 </form>
 <?php
 require_once('inc/footer.inc.php');
