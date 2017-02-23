@@ -10,7 +10,7 @@ if(!userConnecte()){ // Si la fonction me retourne FALSE
 if($_POST){
 	
 	if(!empty($_POST['mdp'])){
-		$resultat = $pdo -> prepare("REPLACE INTO membre (id_membre, pseudo, mdp, nom, prenom, email, civilite, ville, code_postal, adresse, statut) VALUES (:id, :pseudo, :mdp, :nom, :prenom, :email, :civilite, :ville, :code_postal, :adresse, 0)");
+		$resultat = $pdo -> prepare("REPLACE INTO membre (id_membre, pseudo, mdp, nom, prenom, email, civilite, statut) VALUES (:id, :pseudo, :mdp, :nom, :prenom, :email, :civilite, 0)");
 				
 		//STR
 		$resultat -> bindParam(':pseudo', $_POST['pseudo'], PDO::PARAM_STR);
@@ -21,11 +21,9 @@ if($_POST){
 		$resultat -> bindParam(':prenom', $_POST['prenom'], PDO::PARAM_STR);
 		$resultat -> bindParam(':email', $_POST['email'], PDO::PARAM_STR);
 		$resultat -> bindParam(':civilite', $_POST['civilite'], PDO::PARAM_STR);
-		$resultat -> bindParam(':ville', $_POST['ville'], PDO::PARAM_STR);
-		$resultat -> bindParam(':adresse', $_POST['adresse'], PDO::PARAM_STR);
+		
 
 		//INT
-		$resultat -> bindParam(':code_postal', $_POST['code_postal'], PDO::PARAM_INT);	
 		$resultat -> bindParam(':id', $_SESSION['membre']['id_membre'], PDO::PARAM_INT);	
 		
 		if($resultat -> execute()){
@@ -80,19 +78,10 @@ require_once('inc/header.inc.php');
 	
 	<label>Civilité :</label>
 	<select name="civilite">
-		<option>-- Selectionnez -- </option>
+		<option values="">-- Selectionnez -- </option>
 		<option value="m" <?= ($civilite == 'm') ? 'selected' : '' ?>>Homme</option>
 		<option value="f" <?= ($civilite == 'f') ? 'selected' : '' ?>>Femme</option>
 	</select><br/>
-	
-	<label>Ville :</label>
-	<input type="text" name="ville" value="<?= $ville ?>"/><br/>
-	
-	<label>Code postal :</label>
-	<input type="text" name="code_postal" value="<?= $code_postal ?>"/><br/>
-	
-	<label>Adresse :</label>
-	<input type="text" name="adresse" value="<?= $adresse ?>"/><br/>
 	
 	<input type="submit" value="Modifier les infos" />
 	
