@@ -9,7 +9,7 @@ CREATE TABLE salle (
   ,adresse     varchar(50)        NOT NULL
   ,capacite    int(3)             NOT NULL
   ,categorie   enum('r','b','f')  NOT NULL  
--- r=reception, b=bureau, f=formation  
+-- catégorie : r=réception, b=bureau, f=formation  
   ,PRIMARY KEY  (id_salle)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1
 ;
@@ -23,7 +23,7 @@ CREATE TABLE membre (
   ,prenom               varchar(20)   NOT NULL
   ,email                varchar(50)   NOT NULL
   ,civilite             enum('m','f') NOT NULL
--- m=homme, f=femme
+-- civilite :m=homme, f=femme
   ,statut               int(1)        NOT NULL 
   ,date_enregistrement  datetime      NOT NULL 
   ,PRIMARY KEY  (id_membre)
@@ -37,7 +37,7 @@ CREATE TABLE produit (
   ,date_depart    datetime            NOT NULL 
   ,prix           int(3)              NOT NULL 
   ,etat           enum('l','r')       NOT NULL 
--- l=libre, r=réservé
+-- etat du produit (salle/disponibilité) : l=libre, r=réservé
   ,PRIMARY KEY  (id_produit)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1
 ;
@@ -55,9 +55,9 @@ CREATE TABLE avis (
    id_avis             int(3)        NOT NULL auto_increment
   ,id_membre           int(3)        NOT NULL
   ,id_salle            int(3)        NOT NULL
-  ,commentaire         text              NOT NULL
-  ,note                int(2)            NOT NULL
-  ,date_enregistrement datetime          NOT NULL  
+  ,commentaire         text          NOT NULL
+  ,note                int(2)        NOT NULL
+  ,date_enregistrement datetime      NOT NULL  
   ,PRIMARY KEY  (id_avis)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1
 ;

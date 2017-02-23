@@ -1,4 +1,5 @@
 <?php
+/* === init.inc.php ===*/
 
 // CONNEXION BDD
 $pdo = new PDO('mysql:host=localhost;dbname=lokisalle', 'root', '', array(
@@ -15,7 +16,8 @@ define('RACINE_SITE', '/lokisalle/lokisalle/');
 // VARIABLES
 $msg = ''; 
 $page = '';
-$contenu = '';
+$contenu1 = '';
+$contenu2 = '';
 
 // AUTRES INCLUSIONS
 require_once('fonctions.inc.php');

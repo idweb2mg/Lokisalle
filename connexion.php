@@ -1,4 +1,5 @@
 <?php
+/* === connexion.php === */
 require_once('inc/init.inc.php'); 
 
 
