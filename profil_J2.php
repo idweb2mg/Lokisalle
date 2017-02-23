@@ -39,31 +39,31 @@ if(isset($_GET['action']) && $_GET['action'] == 'afficher'){
 
 	if($resultat -> rowCount() > 0){
 
-	$contenu2 .= '<table border="1">' ;
-	$contenu2 .= '<tr>' ;
+	$contenu .= '<table border="1">' ;
+	$contenu .= '<tr>' ;
 	for($i = 0 ; $i < $resultat -> columnCount() ; $i++){
 		$meta = $resultat -> getColumnMeta($i) ;
-		$contenu2 .= '<th>' . $meta['name'] . '</th>' ;
+		$contenu .= '<th>' . $meta['name'] . '</th>' ;
 	}
-	$contenu2 .= '<th>Actions</th>' ;
-	$contenu2 .= '</tr>' ;
+	$contenu .= '<th>Actions</th>' ;
+	$contenu .= '</tr>' ;
 	while($commandes = $resultat -> fetch(PDO::FETCH_ASSOC)){ 
-		$contenu2 .= '<tr>' ; 
+		$contenu .= '<tr>' ; 
 		foreach($commandes as $indice => $valeur){
 			if($indice == 'photo'){
-				$contenu2 .= '<td><img src="' . RACINE_SITE . 'photo/' . $valeur . '" height="100"/></td>' ;
+				$contenu .= '<td><img src="' . RACINE_SITE . 'photo/' . $valeur . '" height="100"/></td>' ;
 			}
 			else{
-				$contenu2 .= ' <td>' . $valeur . '</td>' ;
+				$contenu .= ' <td>' . $valeur . '</td>' ;
 			}
 		}
-		$contenu2 .= '<td><a href="?action=voir&id_commande='. $commandes['id_commande'] .'"><img src="' . RACINE_SITE . 'img/eye.png" width="25"/></a></td>' ;
-		$contenu2 .= '</tr>' ;
+		$contenu .= '<td><a href="?action=voir&id_commande='. $commandes['id_commande'] .'"><img src="' . RACINE_SITE . 'img/eye.png" width="25"/></a></td>' ;
+		$contenu .= '</tr>' ;
 	}
-	$contenu2 .= '</table>' ;
+	$contenu .= '</table>' ;
 	}
 	else{
-		$contenu2 .= '<p>Vous n\'avez jamais commandé sur le site</p>' ;
+		$contenu .= '<p>Vous n\'avez jamais commandé sur le site</p>' ;
 	}
 
 
@@ -79,7 +79,7 @@ if(isset($_GET['action']) && $_GET['action'] == 'afficher'){
 //Traitement pour afficher les détails des commandes de l'utilisateur:
 if(isset($_GET['action']) && $_GET['action'] == 'afficher'){
 	if(isset($_GET['id_commande']) && !empty($_GET['id_commande']) && is_numeric($_GET['id_commande'])){
-
+		
 		$req = "
 		SELECT 
 		  p.id_produit
@@ -88,44 +88,52 @@ if(isset($_GET['action']) && $_GET['action'] == 'afficher'){
 		, p.date_depart
 		, p.prix
 		, p.etat
-		FROM produit p, salle s, commande c
+		FROM produit p, salle s
 		WHERE s.id_salle = p.id_salle
 		AND c.id_commande = '$_GET[id_commande]'
 		AND c.id_produit = p.id_produit
 		";
+echo "FIN J1 EVAL"		 ;
+
+
+		$resultat = $pdo -> prepare("
+		SELECT p.photo, p.titre, dc.* 
+		FROM details_commande dc
+		LEFT JOIN produit p ON p.id_produit = dc.id_produit
+		WHERE dc.id_commande = :id") ;	
 
 		$resultat = $pdo -> prepare($req) ;		
 		$resultat -> bindParam(':id', $_GET['id_commande'], PDO::PARAM_INT) ;
 		$resultat -> execute() ;
-	
+		
 		if($resultat -> rowCount() > 0){
-			$contenu2 .= '<hr/><h2>Détails de la commande N°' . $_GET['id_commande'] . '</h2>' ;
-			$contenu2 .= '<table border="1">' ;
-			$contenu2 .= '<tr>' ;
+			$contenu .= '<hr/><h2>Détails de la commande N°' . $_GET['id_commande'] . '</h2>' ;
+			$contenu .= '<table border="1">' ;
+			$contenu .= '<tr>' ;
 			for($i = 0 ; $i < $resultat -> columnCount() ; $i++){
 				$meta = $resultat -> getColumnMeta($i) ;
-				$contenu2 .= '<th>' . $meta['name'] . '</th>' ;
+				$contenu .= '<th>' . $meta['name'] . '</th>' ;
 			}
-			$contenu2 .= '</tr>' ;
+			$contenu .= '</tr>' ;
 			while($commandes = $resultat -> fetch(PDO::FETCH_ASSOC)){ 
-				$contenu2 .= '<tr>' ; 
+				$contenu .= '<tr>' ; 
 				foreach($commandes as $indice => $valeur){
 					if($indice == 'photo'){
-						$contenu2 .= '<td><img src="' . RACINE_SITE . 'photo/' . $valeur . '" height="100"/></td>' ;
+						$contenu .= '<td><img src="' . RACINE_SITE . 'photo/' . $valeur . '" height="100"/></td>' ;
 					}
 					else{
-						$contenu2 .= ' <td>' . $valeur . '</td>' ;
+						$contenu .= ' <td>' . $valeur . '</td>' ;
 					}
 				}
-				$contenu2 .= '</tr>' ;
+				$contenu .= '</tr>' ;
 			}
-			$contenu2 .= '</table>' ;
+			$contenu .= '</table>' ;
 		}	
 	}	
 }
 
 // Récupération de l'historique descommandes du pseudo donné
-
+	$pseudo = $_SESSION['membre']['pseudo'] ;
 $req2 = "
 		SELECT c.id_commande, c.date_enregistrement 
 		FROM commande c, membre m 
@@ -135,42 +143,39 @@ $req2 = "
 //echo $pseudo ;
 $resultat = $pdo -> query($req2); 
 
-
-$contenu1 .= '<h2>Liste des commandes de ' . $pseudo . ' </h2>' ;
-$contenu1 .= '<table border="1">';
-$contenu1 .= '<tr>';
+$contenu .= '<table border="1">';
+$contenu .= '<tr>';
 
 for($i = 0; $i < $resultat -> columnCount(); $i++){
 
 	$meta = $resultat -> getColumnMeta($i);
-	$contenu1 .= '<th>' . $meta['name'] . '</th>';
+	$contenu .= '<th>' . $meta['name'] . '</th>';
 }
-$contenu1 .= '<th>Action</th>';
-$contenu1 .= '</tr>';
+$contenu .= '<th>Action</th>';
+$contenu .= '</tr>';
 while($commandes = $resultat -> fetch(PDO::FETCH_ASSOC)){ 
-	$contenu1 .= '<tr>'; 
+	$contenu .= '<tr>'; 
 	foreach($commandes as $indice => $valeur){
-		$contenu1 .= ' <td>' . $valeur . '</td>';
+		$contenu .= ' <td>' . $valeur . '</td>';
 	}
-	$contenu1 .= '<td><a href="?action=afficher&id_commande='. $commandes['id_commande'] .'" /><img src="' . RACINE_SITE . 'img/eye.png" width="25"/></a></td>';
+	$contenu .= '<td><a href="?action=afficher&id_commande='. $commandes['id_commande'] .'" /><img src="' . RACINE_SITE . 'img/eye.png" width="25"/></a></td>';
 	
-	$contenu1 .= '</tr>';
+	$contenu .= '</tr>';
 }
-$contenu1 .= '</table>';
+$contenu .= '</table>';
 
 
 $page = 'Profil' ;
 require_once('inc/header.inc.php') ; 
 ?>
 
-<!-- contenu1 de la page -->
+<!-- Contenu de la page -->
 <h1>Profil de <?= $pseudo ?></h1>
 
 <div class="profil">
-
 	<p>Bonjour <?= $pseudo?> !</p><br/>
-	<h1> Profil de <?= $pseudo?>	</h1>
-		<div class="profil_img">
+	
+	<div class="profil_img">
 		<img src="img/default.png"/>
 	</div>
 	<div class="profil_infos">
@@ -185,8 +190,7 @@ require_once('inc/header.inc.php') ;
 		</ul>
 	</div>
 	<div class="liste_commande">
-		<?= $contenu1 ?>
-		<?= $contenu2 ?>
+		<?= $contenu ?>
 	</div>
 <!--
 	<a href="membre.php">Modifier mon profil</a><br/>
