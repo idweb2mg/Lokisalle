@@ -43,7 +43,7 @@ if($_POST){
 		}
 		else{ // Tout est OK le pseudo est disponible on peut enregistrer le membre. Notons que nous aurions du vérifer la disponibilité de l'adresse email. En sachant que ce serait certainement une perte de MDP. 
 		
-		$resultat = $pdo -> prepare("INSERT INTO membre (pseudo, mdp, nom, prenom, email, civilite, statut, date_enregistrement) VALUES (:pseudo, :mdp, :nom, :prenom, :email, :civilite, 0, :date_enregistrement)");
+		$resultat = $pdo -> prepare("INSERT INTO membre (pseudo, mdp, nom, prenom, email, civilite, date_enregistrement) VALUES (:pseudo, :mdp, :nom, :prenom, :email, :civilite, NOW())");
 			
 		//STR
 		$resultat -> bindParam(':pseudo', $_POST['pseudo'], PDO::PARAM_STR);
@@ -54,7 +54,7 @@ if($_POST){
 		$resultat -> bindParam(':prenom', $_POST['prenom'], PDO::PARAM_STR);
 		$resultat -> bindParam(':email', $_POST['email'], PDO::PARAM_STR);
 		$resultat -> bindParam(':civilite', $_POST['civilite'], PDO::PARAM_STR);
-		$resultat -> bindParam(':date_enregistrement', $_POST['date_enregistrement'], PDO::PARAM_STR);
+		
 		
 
 		//INT
@@ -70,7 +70,7 @@ if($_POST){
 		}
 		
 		
-		// $msg .= '<div class="validation">L\'inscription est réussie !</div>';
+		$msg .= '<div class="validation">L\'inscription est réussie !</div>';
 			
 		}
 	}
@@ -81,9 +81,6 @@ $prenom = (isset($_POST['prenom'])) ? $_POST['prenom'] : '';
 $nom = (isset($_POST['nom'])) ? $_POST['nom'] : '';
 $email = (isset($_POST['email'])) ? $_POST['email'] : '';
 $civilite = (isset($_POST['civilite'])) ? $_POST['civilite'] : '';
-$ville = (isset($_POST['ville'])) ? $_POST['ville'] : '';
-$adresse = (isset($_POST['adresse'])) ? $_POST['adresse'] : '';
-$code_postal = (isset($_POST['code_postal'])) ? $_POST['code_postal'] : '';
 // Ces lignes correspondent à des If() + Affectation de manière très contractée. C'est l'équivalent de : 
 //if(isset($_POST['pseudo'])){$pseudo = $_POST['pseudo'];}else{$pseudo = '';}
 	
@@ -116,15 +113,6 @@ require_once('inc/header.inc.php');
 		<option value="m" <?= ($civilite == 'm') ? 'selected' : '' ?>>Homme</option>
 		<option value="f" <?= ($civilite == 'f') ? 'selected' : '' ?>>Femme</option>
 	</select><br/>
-	
-	<label>Ville :</label>
-	<input type="text" name="ville" value="<?= $ville ?>"/><br/>
-	
-	<label>Code postal :</label>
-	<input type="text" name="code_postal" value="<?= $code_postal ?>"/><br/>
-	
-	<label>Adresse :</label>
-	<input type="text" name="adresse" value="<?= $adresse ?>"/><br/>
 	
 	<input type="submit" value="Inscription" />
 </form>
