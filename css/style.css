@@ -204,4 +204,6 @@ span.bulle{
 	background: url(../img/star-2.png) left top no-repeat;
 	background-size: 15px 15px;
 }
-
+.error{
+	border: 5px solid red;
+}
