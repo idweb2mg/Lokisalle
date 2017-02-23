@@ -25,6 +25,7 @@
 					<a <?= ($page == 'Connexion') ? 'class="active"' : '' ?> href="<?= RACINE_SITE ?>connexion.php">Connexion</a>
 				<?php endif; ?>
 				<?php if(userAdmin()) : ?>
+					<a <?= ($page == 'Gestion Salle') ? 'class="active"' : '' ?> href="<?= RACINE_SITE ?>admin/gestion_salle.php">Gestion Salle</a>
 					<a <?= ($page == 'Gestion Boutique') ? 'class="active"' : '' ?> href="<?= RACINE_SITE ?>admin/gestion_boutique.php">Gestion Boutique</a>
 					<a <?= ($page == 'Gestion Membres') ? 'class="active"' : '' ?> href="<?= RACINE_SITE ?>admin/gestion_membres.php">Gestion Membres</a>
 					<a <?= ($page == 'Gestion Commandes') ? 'class="active"' : '' ?> href="<?= RACINE_SITE ?>admin/gestion_commandes.php">Gestion Commandes</a>

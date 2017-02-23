@@ -16,6 +16,7 @@ define('RACINE_SITE', '/lokisalle/lokisalle/');
 // VARIABLES
 $msg = ''; 
 $page = '';
+$contenu  = '';
 $contenu1 = '';
 $contenu2 = '';
 
