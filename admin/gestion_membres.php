@@ -132,34 +132,34 @@ $id_membre = (isset($membre_actuel)) ? $membre_actuel['id_membre'] : '';
 <h2><?= $action ?> un membre</h2>
 
 <form method="post" action="" enctype="multipart/form-data">
-	<input type="hidden" name="id_membre" value="<?= $id_membre ?>" />
+	<input type="hidden" name="id_membre" value="<?= $id_membre ?>" required />
 
 	
 	<label>Pseudo : </label>
-	<input type="text" name="pseudo" value="<?= $pseudo ?>" /><br/>
+	<input type="text" name="pseudo" value="<?= $pseudo ?>"  required/><br/>
 	
 	<label>Mot de passe: </label>
-	<input type="text" name="mdp"/><br/>
+	<input type="text" name="mdp" required/><br/>
 	
 	<label>Nom: </label>
-	<input type="text" name="nom" value="<?= $nom ?>"/><br/>
+	<input type="text" name="nom" value="<?= $nom ?>" required/><br/>
 	
 	<label>Prénom: </label>
-	<input name="prenom" value="<?= $prenom ?>" /><br/>
+	<input name="prenom" value="<?= $prenom ?>" required/><br/>
 	
 	<label>Email: </label>
-	<input type="text" name="email" value="<?= $email ?>"/><br/>
+	<input type="text" name="email" value="<?= $email ?>" required/><br/>
 	
 	<label>Civilite: </label>
-	<select name="civilite">
-		<option>-- Selectionnez --</option>
+	<select name="civilite" required>
+		<option value="">-- Selectionnez --</option>
 		<option <?= ($civilite == 'm') ? 'selected' : '' ?> value="m">Homme</option>
 		<option <?= ($civilite == 'f') ? 'selected' : '' ?> value="f">Femme</option>
 	</select><br/>
 	
 	<label>Statut: </label>
-	<select name="statut">
-		<option>-- Selectionnez --</option>
+	<select name="statut" required>
+		<option value="">-- Selectionnez --</option>
 		<option <?= ($statut == '0') ? 'selected' : '' ?> value="0">Membre</option>
 		<option <?= ($civilite == '1') ? 'selected' : '' ?> value="1">Admin</option>
 	</select><br/>

@@ -62,23 +62,23 @@ require_once('inc/header.inc.php');
 <form method="post" action="">
 	<?= $msg ?>		
 	<label>Pseudo :</label>
-	<input type="text" name="pseudo" value="<?= $pseudo ?>"/><br/>
+	<input type="text" name="pseudo" value="<?= $pseudo ?>" required/><br/>
 	
 	<label>Mot de passe :</label>
-	<input type="password" name="mdp"/><br/>
+	<input type="password" name="mdp" required/><br/>
 	
 	<label>Nom :</label>
-	<input type="text" name="nom" value="<?= $nom ?>"/><br/>
+	<input type="text" name="nom" value="<?= $nom ?>" required/><br/>
 	
 	<label>Prénom :</label>
-	<input type="text" name="prenom" value="<?= $prenom ?>"/><br/>
+	<input type="text" name="prenom" value="<?= $prenom ?>" required/><br/>
 	
 	<label>Email :</label>
-	<input type="text" name="email" value="<?= $email ?>"/><br/>
+	<input type="text" name="email" value="<?= $email ?>" required/><br/>
 	
 	<label>Civilité :</label>
-	<select name="civilite">
-		<option values="">-- Selectionnez -- </option>
+	<select name="civilite" required>
+		<option value="">-- Selectionnez -- </option>
 		<option value="m" <?= ($civilite == 'm') ? 'selected' : '' ?>>Homme</option>
 		<option value="f" <?= ($civilite == 'f') ? 'selected' : '' ?>>Femme</option>
 	</select><br/>
