@@ -74,7 +74,7 @@ require_once('inc/header.inc.php');
 	<input type="text" name="prenom" value="<?= $prenom ?>" required/><br/>
 	
 	<label>Email :</label>
-	<input type="text" name="email" value="<?= $email ?>" required/><br/>
+	<input type="email" name="email" value="<?= $email ?>" required/><br/>
 	
 	<label>Civilité :</label>
 	<select name="civilite" required>

@@ -15,12 +15,12 @@ if($_POST){
 			$contenu .= '<h2> Ajout et modification d\'un memebre</h2>';		
 		
 		if(isset($_GET['action']) && $_GET['action'] == 'modifier'){//modif
-			$resultat = $pdo -> prepare("REPLACE INTO membre (id_membre, pseudo, mdp, nom, prenom, email, civilite, statut) VALUES (:id_membre, :pseudo, :mdp, :nom, :prenom, :email, :civilite, :statut)");
+			$resultat = $pdo -> prepare("REPLACE INTO membre (id_membre, pseudo, mdp, nom, prenom, email, civilite, statut, date_enregistrement) VALUES (:id_membre, :pseudo, :mdp, :nom, :prenom, :email, :civilite, :statut, NOW())");
 			
 			$resultat -> bindParam(':id_membre', $_POST['id_membre'], PDO::PARAM_INT);
 		}
 		else{//ajout
-			$resultat = $pdo -> prepare("REPLACE INTO membre (pseudo, mdp, nom, prenom, email, civilite, statut) VALUES (:pseudo, :mdp, :nom, :prenom, :email, :civilite, :statut)");
+			$resultat = $pdo -> prepare("REPLACE INTO membre (pseudo, mdp, nom, prenom, email, civilite, statut, date_enregistrement) VALUES (:pseudo, :mdp, :nom, :prenom, :email, :civilite, :statut, NOW())");
 		}
 		
 		//STR
@@ -56,8 +56,10 @@ if(isset($_GET['action']) && $_GET['action'] == 'supprimer'){ // SI une
 		
 		if($resultat -> rowCount() > 0){
  
-			$resultat = $pdo -> exec("DELETE FROM membre WHERE id_membre = $membre[id_membre]");
-			
+			$resultat = $pdo -> prepare(" DELETE FROM membre WHERE id_membre = :id_membre ");
+			$resultat -> bindParam(':id_membre', $_GET['id_membre'], PDO::PARAM_INT);
+			$resultat -> execute();
+
 			if($resultat != FALSE){
 				$_GET['action'] = 'affichage';
 				$msg .= '<div class="validation">Le membre N°' . $membre['id_membre'] . ' a bien été supprimé !</div>';	
@@ -90,7 +92,7 @@ if(isset($_GET['action']) && $_GET['action'] == 'affichage'){
 			}
 		} 
 		$contenu .= '<td><a href="?action=modifier&id_membre='. $membres['id_membre'] .'"><img src="' . RACINE_SITE . 'img/edit.png"/></a></td>';
-		$contenu .= '<td><a href="?action=supprimer&id_membre='. $membres['id_membre'] .'"><img src="' . RACINE_SITE . 'img/delete.png"/></a></td>';
+		$contenu .= '<td><a href="?action=supprimer&id_membre='. $membres['id_membre'] .'" onclick="return confirm(\'Voulez-vous supprimer le membre ' . $membres['pseudo'] . ' ?\');"><img src="' . RACINE_SITE . 'img/delete.png"/></a></td>';
 		$contenu .= '</tr>';
 	}
 	$contenu .= '</table>';
@@ -148,7 +150,7 @@ $id_membre = (isset($membre_actuel)) ? $membre_actuel['id_membre'] : '';
 	<input name="prenom" value="<?= $prenom ?>" required/><br/>
 	
 	<label>Email: </label>
-	<input type="text" name="email" value="<?= $email ?>" required/><br/>
+	<input type="email" name="email" value="<?= $email ?>" required/><br/>
 	
 	<label>Civilite: </label>
 	<select name="civilite" required>

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /* === profil.php ===*/
 require_once('inc/init.inc.php') ;
 
@@ -17,63 +17,7 @@ if(!userConnecte()){ // Si la fonction me retourne FALSE
 //Pour afficher les infos
 extract($_SESSION['membre']) ;
 
-debug($_SESSION) ;
-
-
-
-
-// VOIR
-// AFFICHER LES DETAILS D'UNE COMMANDE
-/*
-if(isset($_GET['action']) && $_GET['action'] == 'afficher'){
-
-	
-
-	$id_membre = $_SESSION['membre']['id_membre'] ;
-	$req = "
-	SELECT 
-	FROM commande c,produit p, salle s
-	WHERE c.id_membre = $id_membre " ;
-
-	$resultat = $pdo -> query($req) ; 
-
-	if($resultat -> rowCount() > 0){
-
-	$contenu2 .= '<table border="1">' ;
-	$contenu2 .= '<tr>' ;
-	for($i = 0 ; $i < $resultat -> columnCount() ; $i++){
-		$meta = $resultat -> getColumnMeta($i) ;
-		$contenu2 .= '<th>' . $meta['name'] . '</th>' ;
-	}
-	$contenu2 .= '<th>Actions</th>' ;
-	$contenu2 .= '</tr>' ;
-	while($commandes = $resultat -> fetch(PDO::FETCH_ASSOC)){ 
-		$contenu2 .= '<tr>' ; 
-		foreach($commandes as $indice => $valeur){
-			if($indice == 'photo'){
-				$contenu2 .= '<td><img src="' . RACINE_SITE . 'photo/' . $valeur . '" height="100"/></td>' ;
-			}
-			else{
-				$contenu2 .= ' <td>' . $valeur . '</td>' ;
-			}
-		}
-		$contenu2 .= '<td><a href="?action=voir&id_commande='. $commandes['id_commande'] .'"><img src="' . RACINE_SITE . 'img/eye.png" width="25"/></a></td>' ;
-		$contenu2 .= '</tr>' ;
-	}
-	$contenu2 .= '</table>' ;
-	}
-	else{
-		$contenu2 .= '<p>Vous n\'avez jamais commandé sur le site</p>' ;
-	}
-
-
-} // FIN if(isset($_GET['action']) && $_GET['action'] == 'afficher')
-
-
-*/
-
-
-
+//debug($_SESSION) ;
 
 
 //Traitement pour afficher les détails des commandes de l'utilisateur:
@@ -182,7 +126,8 @@ require_once('inc/header.inc.php') ;
 			<li>Civilité : <b><?php ($civilite == 'm') ? $var = 'Homme' :  $var = 'Femme'; echo $var ;  ?></b></li> 
 			<li>Statut : <b><?php ($statut == 1) ? $var = 'admin' :  $var = 'membre'; echo $var ;  ?></b></li>
 			<li>Date enregistrement : <b><?= $date_enregistrement ?></b></li>			
-		</ul>
+		</ul><br>
+		<a href="membre.php"><b>=> Modifier votre profil</b></a>
 	</div>
 	<div class="liste_commande">
 		<?= $contenu1 ?>
