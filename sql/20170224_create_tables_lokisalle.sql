@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Jeu 23 Février 2017 à 11:27
+-- Généré le :  Ven 24 Février 2017 à 17:26
 -- Version du serveur :  10.1.19-MariaDB
 -- Version de PHP :  5.5.38
 
@@ -80,7 +80,8 @@ CREATE TABLE `membre` (
 
 INSERT INTO `membre` (`id_membre`, `pseudo`, `mdp`, `nom`, `prenom`, `email`, `civilite`, `statut`, `date_enregistrement`) VALUES
 (2, 'adminalalexis', '21232f297a57a5a743894a0e4a801fc3', 'admin', 'admin', 'admin', 'm', 1, '2017-02-22 14:00:00'),
-(3, 'adminjp', '21232f297a57a5a743894a0e4a801fc3', 'adminjp', 'adminjp', 'adminjp@adminjp.fr', 'm', 1, '2017-02-23 09:00:00');
+(3, 'adminjp', '21232f297a57a5a743894a0e4a801fc3', 'adminjp', 'adminjp', 'adminjp@adminjp.fr', 'm', 1, '2017-02-23 09:00:00'),
+(4, 'jpr', 'ea70a4879aa9b84342ccf21e52ed07ec', 'jpr', 'jpr', 'jpr@eee.fr', 'm', 1, '2017-02-24 13:35:51');
 
 -- --------------------------------------------------------
 
@@ -114,24 +115,29 @@ INSERT INTO `produit` (`id_produit`, `id_salle`, `date_arrivee`, `date_depart`, 
 
 CREATE TABLE `salle` (
   `id_salle` int(3) NOT NULL,
+  `categorie` enum('r','b','f') NOT NULL,
+  `reference` varchar(10) NOT NULL,
   `titre` varchar(200) NOT NULL,
   `description` text NOT NULL,
-  `photo` varchar(200) NOT NULL,
+  `url_photo` varchar(200) NOT NULL,
   `pays` varchar(20) NOT NULL,
   `ville` varchar(20) NOT NULL,
   `code_postal` int(5) NOT NULL,
   `adresse` varchar(50) NOT NULL,
-  `capacite` int(3) NOT NULL,
-  `categorie` enum('r','b','f') NOT NULL
+  `capacite` int(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Contenu de la table `salle`
 --
 
-INSERT INTO `salle` (`id_salle`, `titre`, `description`, `photo`, `pays`, `ville`, `code_postal`, `adresse`, `capacite`, `categorie`) VALUES
-(1, 'salle1', 'salle1', '', 'France', 'PAris', 75001, 'salle1', 10, 'r'),
-(2, 'salle2', 'salle2', '', 'France', 'PAris', 75002, 'salle2', 50, '');
+INSERT INTO `salle` (`id_salle`, `categorie`, `reference`, `titre`, `description`, `url_photo`, `pays`, `ville`, `code_postal`, `adresse`, `capacite`) VALUES
+(1, 'r', 'r-moz', 'Mozart', 'salle reception1', '1reception.jpg', 'France', 'Paris', 75001, '1 allée des Bruyères', 200),
+(2, 'f', 'f-beeth', 'Beethoven', 'salle de formation1', '1formation.jpg', 'France', 'Marseille', 13002, '2 allée de la formation1', 15),
+(6, '', 'fdsn', 'fdsnnfs', 'fsdnfnf', 'default.jpg', 'fdsnfsn', 'fnfns', 0, '', 0),
+(8, 'f', 'b', 'bf', 'b', 'default.jpg', 'b', '', 0, '', 0),
+(11, '', 'kkkkkkkkkk', 'Llllllllllllllllll', 'uuuuuuuuuuuuuuuuuuuuuuuuu', '_3bureau.jpg', 'espagne', 'uuuuuuuuuuuuuuuuuuu', 142544, 'fgggggggggggggggg', 10),
+(13, '', 'reception', 'reception', 'reception', '_1reception.jpg', 'france', 'reception', 12345, 'myAdresse', 12);
 
 --
 -- Index pour les tables exportées
@@ -159,7 +165,8 @@ ALTER TABLE `membre`
 -- Index pour la table `produit`
 --
 ALTER TABLE `produit`
-  ADD PRIMARY KEY (`id_produit`);
+  ADD PRIMARY KEY (`id_produit`),
+  ADD KEY `id_salle` (`id_salle`);
 
 --
 -- Index pour la table `salle`
@@ -185,7 +192,7 @@ ALTER TABLE `commande`
 -- AUTO_INCREMENT pour la table `membre`
 --
 ALTER TABLE `membre`
-  MODIFY `id_membre` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_membre` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT pour la table `produit`
 --
@@ -195,7 +202,17 @@ ALTER TABLE `produit`
 -- AUTO_INCREMENT pour la table `salle`
 --
 ALTER TABLE `salle`
-  MODIFY `id_salle` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_salle` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+--
+-- Contraintes pour les tables exportées
+--
+
+--
+-- Contraintes pour la table `produit`
+--
+ALTER TABLE `produit`
+  ADD CONSTRAINT `produit_ibfk_1` FOREIGN KEY (`id_salle`) REFERENCES `salle` (`id_salle`);
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

@@ -2,6 +2,7 @@
 <html>
     <head>
         <title>LOKISALLE - <?= $page ?></title>
+        <link type="text/css" rel="stylesheet" href="<?= RACINE_SITE ?>css/bootstrap.css" />
         <link rel="stylesheet" href="<?= RACINE_SITE ?>css/style.css"/>
     </head>
     <body>    

@@ -218,7 +218,7 @@ if(isset($_GET['action']) && $_GET['action'] == 'affichage'){ // Si une action p
 		}
 		// En face de chaque enregistrement on ajoute deux actions : Modifie et supprimer en GET et précisant l'ID de chaque enregistrement. 
 		$contenu .= '<td><a href="?action=modifier&id_salle='. $salles['id_salle'] .'"><img src="' . RACINE_SITE . 'img/edit.png"/></a></td>' ;
-		$contenu .= '<td><a href="?action=supprimer&id_salle='. $salles['id_salle'] .'"><img src="' . RACINE_SITE . 'img/delete.png"/></a></td>' ;
+		$contenu .= '<td><a href="?action=supprimer&id_salle='. $salles['id_salle'] .'" onclick="return confirm(\'Voulez-vous supprimer la salle ' . $salles['titre'] . ' ?\');"><img src="' . RACINE_SITE . 'img/delete.png"/></a></td>' ;
 		$contenu .= '</tr>' ;
 	}
 	$contenu .= '</table>' ;
@@ -329,7 +329,7 @@ $action = (isset($salle_actuelle)) ? 'Modifier' : 'Ajouter' ;
 	<div class="clear"></div>
 	
 	<label>Ville </label>
-	<input type="text" name="ville" value="<?= $ville ?>" required/><br/>
+	<input type="text" name="ville" value="<?= $ville ?>" required /><br/>
 	
 	<label>Code Postal </label>
 	<input type="text" name="code_postal" id="code_postal" maxlength="5" pattern="[0-9]{5}" title="5 chiffres requis entre 0 et 9" value="<?= $code_postal ?>" required/>

@@ -12,7 +12,7 @@ if($_POST){
 	//debug($_POST);
 
 	if(isset($_POST['mdp']) && !empty($_POST['mdp'])){
-			$contenu .= '<h2> Ajout et modification d\'un memebre</h2>';		
+			$contenu .= '<h2> Ajout et modification d\'un membre</h2>';		
 		
 		if(isset($_GET['action']) && $_GET['action'] == 'modifier'){//modif
 			$resultat = $pdo -> prepare("REPLACE INTO membre (id_membre, pseudo, mdp, nom, prenom, email, civilite, statut, date_enregistrement) VALUES (:id_membre, :pseudo, :mdp, :nom, :prenom, :email, :civilite, :statut, NOW())");
@@ -102,7 +102,7 @@ $page = 'Gestion Membres';
 require_once('../inc/header.inc.php');
 ?>
 
-<h1>Gestion de la boutique</h1>
+<h1>Gestion des membres</h1>
 <ul> 
 	<li><a href="?action=affichage">Afficher les membres</a></li>
 	<li><a href="?action=ajout">Ajouter un membre</a></li>

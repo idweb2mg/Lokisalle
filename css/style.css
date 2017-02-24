@@ -1,10 +1,10 @@
 /**************************************************** GENERAL ************************************************/
 *{ margin: 0; }
-body{ font-family : verdana; font-size: 12px; }
+body{ font-family : verdana; font-size: 12px;  }
 a{ text-decoration: none; color: #000; }
-.conteneur{ margin: 0 auto; max-width: 1170px; }
+.conteneur{ margin: 0 auto; max-width: 1170px;  }
 /**************************************************** HAUT ************************************************/
-header { background: #000000; padding: 5px; text-align: center; }
+header { background: #696969; padding: 5px; text-align: center; }
 header  span{ color: #fff; font-weight: bold; text-transform: uppercase; margin-right: 5%; }
 header  nav{ display: inline; }
 header  a{ color: #ffffff; text-decoration: none; padding: 5px 5px; }
@@ -12,7 +12,7 @@ header  nav  a:hover, a.active{ background: #04baf6; }
 /**************************************************** MILIEU ************************************************/
 section{ padding: 30px; min-height: 800px; }
 /**************************************************** BAS ************************************************/
-footer{ background: #000; color: white; text-align: center; padding: 7px 0;}
+footer{ background: #696969; color: white; text-align: center; padding: 7px 0;}
 /**************************************************** GENERAL ************************************************/
 .erreur{ background: #ff0000; padding: 5px; margin: 5px; }
 .validation{ background: #669933; padding: 5px; margin: 5px; }
@@ -42,7 +42,7 @@ footer{ background: #000; color: white; text-align: center; padding: 7px 0;}
 form{
 	margin-top: 20px; 
 	padding: 20px;
-	background : silver;
+	background : #4682B4;
 	overflow: hidden;
 }
 
@@ -115,8 +115,8 @@ form input[type="submit"]:hover{
 	background-color: grey; 
 	color: white; 
 	transition: 1.5s;
-	
 }
+img{height: 250px;}
 
 table{ border-collapse: collapse;}
 hr{

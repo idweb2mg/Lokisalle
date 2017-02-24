@@ -1,10 +1,21 @@
 <?php
+/*
+---------------------------------------
+   fiche_produit.php
+---------------------------------------
+*/
 require_once('inc/init.inc.php') ;
 
 // Traitement pour récupérer toutes les infos du produit
 if(isset($_GET['id_produit']) && $_GET['id_produit'] != ''){
 	if(is_numeric($_GET['id_produit'])){
-		$resultat = $pdo -> prepare("SELECT * FROM produit WHERE id_produit = :id_produit") ;
+		$req = "
+		SELECT *
+		FROM produit
+		WHERE id_produit = :id_produit
+		" ;
+
+		$resultat = $pdo -> prepare($req) ;
 		$resultat -> bindParam(':id_produit', $_GET['id_produit'], PDO::PARAM_INT) ;
 		$resultat -> execute() ; 
 	
@@ -13,13 +24,22 @@ if(isset($_GET['id_produit']) && $_GET['id_produit'] != ''){
 			$produit = $resultat -> fetch(PDO::FETCH_ASSOC) ; 
 			// debug($produit) ;
 			extract($produit) ;
-			
-			$resultat = $pdo -> query("SELECT ROUND(AVG(note), 0) as note_moyenne FROM note WHERE id_produit = $id_produit") ;
+			$req = "
+			SELECT ROUND(AVG(note), 0) as note_moyenne
+			FROM note
+			WHERE id_produit = $id_produit
+			" ;
+			$resultat = $pdo -> query($req) ;
 			$result = $resultat -> fetch(PDO::FETCH_ASSOC) ;
 			extract($result) ;
 			//$result['note_moyenne'] est un array avec les infos du produit en l'occurence la note moyenne 
 			//$note_moyenne contient la note moyenne. 
-			$resultat = $pdo -> query("SELECT * FROM note WHERE id_produit = $id_produit") ;
+			$req = "
+			SELECT * 
+			FROM note 
+			WHERE id_produit = $id_produit
+			";
+			$resultat = $pdo -> query($req) ;
 			$nbre_de_note = $resultat -> rowCount() ;
 			// Nbre_de_note contient le nombre d'enregistrements que l'on a trouvés dans la table 'note' concernant ce produit. 
 			// ON vérifie que tout marche bien : echo $note_moyenne . '-' . $nbre_de_note ; 
@@ -41,12 +61,18 @@ else{
 
 //traitement pour ajouter le produit au panier
 if($_POST && $_POST['quantite'] > 0){
-	ajouterProduit($id_produit, $_POST['quantite'], $titre, $photo, $prix) ; 
+	ajouterProduit($id_produit, $_POST['quantite'], $titre, $url_photo, $prix) ; 
 }
 
 
 // traitement pour récupérer toutes les suggestions de produit
-$resultat = $pdo -> query("SELECT * FROM produit WHERE categorie != '$categorie' ORDER BY prix DESC LIMIT 0,5") ;
+$req = "
+SELECT * 
+FROM produit
+WHERE categorie != '$categorie'
+ORDER BY prix DESC LIMIT 0,5
+";
+$resultat = $pdo -> query($req) ;
 $suggestions = $resultat -> fetchAll(PDO::FETCH_ASSOC) ;
 
 
@@ -68,7 +94,19 @@ if(isset($_GET['note']) && !empty($_GET['note']) && in_array($_GET['note'], $not
 		$resultat = $pdo -> query("SELECT * FROM note WHERE id_membre = $id_membre AND id_produit = $id_produit") ;
 		
 		if($resultat -> rowCount() == 0){
-			$resultat = $pdo -> prepare("INSERT INTO note (id_membre, id_produit, note, date_enregistrement) VALUES ($id_membre, $id_produit, :note, NOW())") ;
+			$req = "
+			INSERT INTO note (
+			  id_membre
+			, id_produit
+			, note
+			, date_enregistrement
+			) VALUES (
+			  $id_membre
+			, $id_produit
+			, :note
+			, NOW())
+			" ;
+			$resultat = $pdo -> prepare($req) ;
 			$resultat -> bindParam(':note', $_GET['note'], PDO::PARAM_STR) ;
 			if($resultat -> execute()){
 				header('location:fiche_produit.php?id_produit=' . $id_produit) ;
@@ -79,7 +117,12 @@ if(isset($_GET['note']) && !empty($_GET['note']) && in_array($_GET['note'], $not
 
 if(userConnecte()){
 	$id_membre = $_SESSION['membre']['id_membre'] ;
-	$resultat = $pdo -> query("SELECT * FROM note WHERE id_membre = $id_membre AND id_produit = $id_produit") ;
+	$req = "
+	SELECT * 
+	FROM note 
+	WHERE id_membre = $id_membre AND id_produit = $id_produit
+	" ;
+	$resultat = $pdo -> query($req) ;
 	
 	if($resultat -> rowCount() > 0){
 		$note = $resultat -> fetch(PDO::FETCH_ASSOC) ;
@@ -102,7 +145,7 @@ require_once('inc/header.inc.php') ;
 	<?php endfor ; ?>
 	</p>	
 </div>
-<img src="<?= RACINE_SITE ?>photo/<?= $photo ?>" width="250" /><br/>
+<img src="<?= RACINE_SITE ?>photo/<?= $url_photo ?>" width="250" /><br/>
 <p>Détails du produit :</p>
 <ul>
 	<li>Référence : <b><?= $reference ?></b></li>
@@ -166,7 +209,7 @@ require_once('inc/header.inc.php') ;
 	<?php foreach($suggestions as $valeur) : ?>
 	<div class="boutique-produit" style="width:15% ; padding: 10px">
 		<h3><?= $valeur['titre'] ?></h3>
-		<a href="fiche_produit.php?id_produit=<?= $valeur['id_produit'] ?>"><img src="<?= RACINE_SITE ?>photo/<?= $valeur['photo'] ?>" height="100" /></a>
+		<a href="fiche_produit.php?id_produit=<?= $valeur['id_produit'] ?>"><img src="<?= RACINE_SITE ?>photo/<?= $valeur['url_photo'] ?>" height="100" /></a>
 		<p style="font-weight: bold ; font-size:20px ;"><?= $valeur['prix'] ?>€</p>
 		<p style="height: 40px"><?= substr($valeur['description'], 0, 40) ?>...</p><br/>
 		<a style="padding: 5px 15px ; background: red ; color: white ; text-align: center ; border: 2px solid black ; border-radius: 3px" href="fiche_produit.php?id_produit=<?= $valeur['id_produit'] ?>">Voir la fiche</a>
