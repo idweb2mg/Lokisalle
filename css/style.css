@@ -31,7 +31,9 @@ footer{ background: #000; color: white; text-align: center; padding: 7px 0;}
 /**************************************************** BOUTIQUE ************************************************/
 
 
-
+.clear {
+	clear: both;
+}
 
 
 
